@@ -6,7 +6,7 @@ import { BsPeopleFill, BsEnvelopePlusFill, BsFillBagPlusFill } from "react-icons
 
 function HomeMainCards() {
   return (
-        <div className="row g-0">
+      <div className="row g-0">
       {/* card one */}
       <div className='d-flex mb-1'>
         <div className="col-xl-3 col-sm-6">

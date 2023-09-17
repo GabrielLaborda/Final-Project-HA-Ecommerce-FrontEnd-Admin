@@ -37,8 +37,7 @@ function CategoriesMainSection() {
                         <tr>
                           <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category</th>
                           <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">prod Quantity</th>
-                          <th className="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Edit</th>
-                          <th className="text-secondary opacity-7"></th>
+                          <th className="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -57,10 +56,7 @@ function CategoriesMainSection() {
                             <td className="align-middle text-center text-sm">
                               <p className="text-xs font-weight-bold mb-0">{category.products.length} products</p>
                             </td>
-                            <td className="align-middle text-center">
-                              <span className="text-secondary text-xs font-weight-bold"></span>
-                            </td>
-                            <td className="align-middle text-sm">
+                            <td className="align-middle text-end text-sm">
                               <a href="" className="text-secondary text-decoration-none">
                                 Edit
                               </a>

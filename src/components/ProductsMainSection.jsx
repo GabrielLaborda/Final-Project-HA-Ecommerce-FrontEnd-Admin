@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
+import AddProductModal from './AddProductModal';
 
 function ProductsMainSection() {
 
@@ -72,7 +73,7 @@ function ProductsMainSection() {
                     </table>
                   </div>
                   <div className='d-flex justify-content-center mb-4'>
-                      <button className='ms-3 px-5 py-2 btn btn-outline-dark rounded-0'>Add new Product</button>
+                    <AddProductModal />
                   </div>
                 </div>
               </div>

@@ -41,7 +41,6 @@ function UsersMainSection() {
                           <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
                           <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Address</th>
                           <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Orders</th>
-                          <th className="text-secondary opacity-7"></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -66,11 +65,6 @@ function UsersMainSection() {
                             </td>
                             <td className="align-middle text-center">
                               <span className="text-secondary text-xs font-weight-bold">{user.orders.length}</span>
-                            </td>
-                            <td className="align-middle text-sm">
-                              <a href="" className="text-secondary text-decoration-none">
-                                Edit
-                              </a>
                             </td>
                           </tr>
                         ))}

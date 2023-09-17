@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
+import OrderInfoModal from './OrderInfoModal';
 
 function OrdersMainSection() {
 
@@ -60,7 +61,7 @@ function OrdersMainSection() {
                               <p className="text-xs font-weight-bold mb-0">{order.user.firstname} {order.user.lastname}</p>
                             </td>
                             <td className="align-middle text-center">
-                              <span className="text-secondary text-xs font-weight-bold">{ order.status.status } </span>
+                              <span className="text-secondary text-xs font-weight-bold">{order.status.status} </span>
                             </td>
                             <td className="align-middle text-center text-sm">
                               <span href="" className="text-secondary text-decoration-none">
@@ -68,17 +69,12 @@ function OrdersMainSection() {
                               </span>
                             </td>
                             <td className="align-middle text-center text-sm">
-                              <a href="" className="text-secondary text-decoration-none">
-                                view info
-                              </a>
+                              <OrderInfoModal />
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
-                  </div>
-                  <div className='d-flex justify-content-center mb-4'>
-                      <button className='ms-3 px-5 py-2 btn btn-outline-dark rounded-0'>Add new Product</button>
                   </div>
                 </div>
               </div>
