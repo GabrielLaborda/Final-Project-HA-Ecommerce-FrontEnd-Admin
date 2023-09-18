@@ -18,7 +18,6 @@ function AddAdminModal() {
   
   const handleSubmit = async () => {
     try {
-      console.log(firstname, lastname, email, password)
       await axios({
         method: "POST",
         url: `${baseURL}/admins`,

@@ -12,7 +12,7 @@ function OrderInfoModal() {
 
     return (
     <>
-        <h7 role="button" href="" onClick={handleShow} className="text-secondary text-decoration-none">View info</h7>
+        <h6 role="button" href="" onClick={handleShow} className="text-secondary text-decoration-none">View info</h6>
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Order info</Modal.Title>

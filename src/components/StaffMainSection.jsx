@@ -24,7 +24,6 @@ function StaffMainSection() {
   const handleDelete = async (id, firstname) => {
     try {
       window.confirm(`Are you sure you want to delete ${firstname}?`);
-      console.log(id)
       await axios({
         method: "DELETE",
         url: `${baseURL}/admins/${id}`,
@@ -96,7 +95,7 @@ function StaffMainSection() {
                               <span className="text-secondary text-xs font-weight-bold">{new Date(admin.createdAt).toLocaleDateString()}</span>
                             </td>
                             <td className="align-middle text-sm">
-                              <EditAdminModal />
+                              <EditAdminModal adminId={ admin._id } />
                             </td>
                             <td className="align-middle text-sm">
                               <TiDeleteOutline onClick={() => handleDelete(admin._id, admin.firstname)} className='text-danger' role='button' />
