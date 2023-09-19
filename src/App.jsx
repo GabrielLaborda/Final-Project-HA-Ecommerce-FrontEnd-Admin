@@ -8,13 +8,15 @@ import CategoriesMainSection from './components/CategoriesMainSection';
 import ProductsMainSection from './components/ProductsMainSection';
 import OrdersMainSection from './components/OrdersMainSection';
 import StaffMainSection from './components/StaffMainSection';
+import AdminLogin from './components/AdminLogin';
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<AdminHome/>}>
-          <Route path="/dashboard" element={<HomeMainSection />} />
+        <Route path='/' element={<AdminHome />}>
+          <Route path="/" element={<HomeMainSection />} />
+          <Route path='/login' element={<AdminLogin />} />
           <Route path="/users" element={<UsersMainSection />} />
           <Route path="/categories" element={<CategoriesMainSection />} />
           <Route path="/products" element={<ProductsMainSection />} />

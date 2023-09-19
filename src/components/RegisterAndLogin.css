@@ -1,0 +1,9 @@
+/* .responsiveHeight {
+  height: 100.8px;
+} */
+
+.inputWidth {
+    width: 50%;
+    border-radius: 0.5em !important;
+    padding: 1.5em;
+}

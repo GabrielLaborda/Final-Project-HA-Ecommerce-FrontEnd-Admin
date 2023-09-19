@@ -68,9 +68,6 @@ function StaffMainSection() {
                           <tr key={admin._id}>
                             <td className="align-middle text-start text-sm">
                               <div className="d-flex px-2 py-1">
-                                {/* <div>
-                                  <img src="" alt="user.picture" />
-                                </div> */}
                                 <div className="d-flex flex-column justify-content-center">
                                   <h6 className="mb-0 text-sm">{admin.firstname}</h6>
                                   <p className="text-xs text-secondary mb-0">{admin.lastname}</p>
@@ -82,9 +79,6 @@ function StaffMainSection() {
                             </td>
                             <td className="align-middle text-center text-sm">
                               <div className="d-flex px-2 py-1">
-                                {/* <div>
-                                  <img src="" alt="user.picture" />
-                                </div> */}
                                 <div className="d-flex flex-column justify-content-center">
                                   <h6 className="mb-0 text-sm">Executive</h6>
                                   <p className="text-xs text-secondary mb-0">Manager</p>

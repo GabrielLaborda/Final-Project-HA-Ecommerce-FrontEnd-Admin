@@ -2,27 +2,32 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import OrderInfoModal from './OrderInfoModal';
+import { useSelector } from 'react-redux';
 
 function OrdersMainSection() {
 
   const baseURL = import.meta.env.VITE_API_BASE_URL;
-  const [allOrders, setAllOrders] = useState(null);
+  const [allOrders, setAllOrders] = useState([]);
+  const loggedAdmin = useSelector((state) => state.admin);
 
   const getAllOrders = async () => {
     const response = await axios({
       method: 'GET',
       url: `${baseURL}/orders`,
+      headers:{
+            Authorization: `Bearer ${loggedAdmin.token}`,
+            }
     });
     setAllOrders(response.data);
   };
 
   useEffect(() => {
     getAllOrders();
-  }, []);
+  },);
 
   return (
     <>
-      {allOrders && (<div className="row g-0 w-75">
+      {allOrders.length > 0 && (<div className="row g-0 w-75">
           <div className='m-0'>
           <div className="col-12 p-0">
             <div className="container my-4 py-4">
@@ -49,16 +54,15 @@ function OrdersMainSection() {
                           <tr key={order._id}>
                             <td className="align-middle text-start text-sm">
                               <div className="d-flex px-2 py-1">
-                                {/* <div>
-                                  <img src="" alt="user.picture" />
-                                </div> */}
                                 <div className="d-flex flex-column justify-content-center">
                                   <h6 className="mb-0 text-sm">{order._id}</h6>
                                 </div>
                               </div>
                             </td>
                             <td className="align-middle text-center text-sm">
-                              <p className="text-xs font-weight-bold mb-0">{order.user.firstname} {order.user.lastname}</p>
+                              {order.user &&
+                              (<p className="text-xs font-weight-bold mb-0">{order.user.firstname} {order.user.lastname}</p>)
+                              }
                             </td>
                             <td className="align-middle text-center">
                               <span className="text-secondary text-xs font-weight-bold">{order.status.status} </span>
@@ -69,7 +73,7 @@ function OrdersMainSection() {
                               </span>
                             </td>
                             <td className="align-middle text-center text-sm">
-                              <OrderInfoModal />
+                              <OrderInfoModal orderId={order} key={order._id} />
                             </td>
                           </tr>
                         ))}

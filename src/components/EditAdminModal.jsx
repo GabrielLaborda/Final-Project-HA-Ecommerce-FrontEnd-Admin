@@ -58,7 +58,7 @@ function EditAdminModal({adminId}) {
         <h6 role="button" onClick={handleShow} className="text-secondary text-decoration-none p-0 m-0">Edit</h6>
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add new employee</Modal.Title>
+          <Modal.Title>Edit employee</Modal.Title>
         </Modal.Header>
         <Modal.Body>
                 <h6 className='fw-bold'>Firstname</h6>
