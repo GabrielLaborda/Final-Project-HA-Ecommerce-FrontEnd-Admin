@@ -12,8 +12,8 @@ function ProductsMainSection() {
   const [allProducts, setAllProducts] = useState(null);
   const [handleSubmitListener, setHandleSubmitListener] = useState(false)
   const loggedAdmin = useSelector((state) => state.admin);
-  console.log(handleSubmitListener);
 
+  useEffect(() => {
   const getAllProducts = async () => {
     console.log('getting products');
     const response = await axios({
@@ -25,10 +25,28 @@ function ProductsMainSection() {
     });
     setAllProducts(response.data);
   };
-
-  useEffect(() => {
     getAllProducts();
   }, [handleSubmitListener]);
+
+  const handleDelete = async (name, slug) => {
+    try {
+      window.confirm(`Are you sure you want to delete ${name}?`);
+      await axios({
+        method: 'DELETE',
+        url: `${baseURL}/products/${slug}`,
+        data: { slug: slug },
+        headers: {
+        Authorization: `Bearer ${loggedAdmin.token}`,
+      },
+      });
+      window.alert('product deleted');
+      setHandleSubmitListener();
+    } catch (error) {
+      console.error(error);
+      window.alert(error);
+      // Add toast!!
+    }
+  };
 
   return (
     <>
@@ -94,7 +112,7 @@ function ProductsMainSection() {
                               </td>
                               <td className="align-middle text-sm">
                                 <TiDeleteOutline
-                                  onClick={() => handleDelete(admin._id, admin.firstname)}
+                                  onClick={() => handleDelete(product.name, product.slug)}
                                   className="text-danger"
                                   role="button"
                                 />

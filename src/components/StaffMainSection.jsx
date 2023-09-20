@@ -10,6 +10,7 @@ function StaffMainSection() {
   const [allAdmin, setAllAdmin] = useState(null);
   const loggedAdmin = useSelector((state) => state.admin);
 
+  useEffect(() => {
   const getAllAdmin = async () => {
     const response = await axios({
       method: 'GET',
@@ -18,10 +19,7 @@ function StaffMainSection() {
         Authorization: `Bearer ${loggedAdmin.token}`,
       },
     });
-    setAllAdmin(response.data);
-  };
-
-  useEffect(() => {
+    setAllAdmin(response.data);};
     getAllAdmin();
   }, []);
 
@@ -32,6 +30,9 @@ function StaffMainSection() {
         method: 'DELETE',
         url: `${baseURL}/admins/${id}`,
         data: { id: id },
+        headers: {
+        Authorization: `Bearer ${loggedAdmin.token}`,
+      },
       });
       window.alert('admin deleted');
     } catch (error) {
