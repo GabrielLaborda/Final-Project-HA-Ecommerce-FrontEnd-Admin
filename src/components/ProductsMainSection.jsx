@@ -10,7 +10,9 @@ import { MdModeEdit } from 'react-icons/md';
 function ProductsMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [allProducts, setAllProducts] = useState(null);
+  const [handleSubmitListener, setHandleSubmitListener] = useState(false)
   const loggedAdmin = useSelector((state) => state.admin);
+  console.log(handleSubmitListener);
 
   const getAllProducts = async () => {
     console.log('getting products');
@@ -26,7 +28,7 @@ function ProductsMainSection() {
 
   useEffect(() => {
     getAllProducts();
-  }, []);
+  }, [handleSubmitListener]);
 
   return (
     <>
@@ -104,8 +106,7 @@ function ProductsMainSection() {
                     </div>
                     <div className="d-flex justify-content-center mb-4">
                       <AddProductModal
-                        getAllProducts={getAllProducts}
-                        setAllProducts={setAllProducts}
+                        handleSubmitListener={handleSubmitListener} setHandleSubmitListener={setHandleSubmitListener}
                       />
                     </div>
                   </div>

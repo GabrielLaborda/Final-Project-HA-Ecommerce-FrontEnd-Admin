@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
 
-function AddProductModal({ getAllProducts, setAllProducts }) {
+function AddProductModal({ handleSubmitListener, setHandleSubmitListener }) {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [show, setShow] = useState(false);
   const loggedAdmin = useSelector((state) => state.admin);
@@ -12,7 +12,7 @@ function AddProductModal({ getAllProducts, setAllProducts }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  
   // get category options (form options)
 
   const [allCategories, setAllCategories] = useState([]);
@@ -51,6 +51,7 @@ function AddProductModal({ getAllProducts, setAllProducts }) {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
       const formData = new FormData(event.target);
       await axios({
@@ -70,8 +71,7 @@ function AddProductModal({ getAllProducts, setAllProducts }) {
       setPrice(0);
       setStock(0);
       setFeatured(false);
-
-      getAllProducts();
+      setHandleSubmitListener(prevState => !prevState);
     } catch (error) {
       console.log(error);
       window.alert('Error: ' + error);
