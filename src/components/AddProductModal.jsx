@@ -58,19 +58,22 @@ function AddProductModal() {
     console.log(stock);
     console.log(featured);
     console.log(category);
+
     try {
-      const response = await axios({
+      const formData = new FormData();
+
+      formData.append('name', name);
+      formData.append('description', description);
+      formData.append('picture', picture);
+      formData.append('price', price);
+      formData.append('stock', stock);
+      formData.append('featured', featured);
+      formData.append('category', category);
+
+      await axios({
         method: 'POST',
         url: `${baseURL}/products`,
-        data: {
-          name: name,
-          description: description,
-          picture: picture,
-          price: price,
-          stock: stock,
-          featured: featured,
-          category: category,
-        },
+        data: formData,
         headers: {
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
