@@ -34,7 +34,7 @@ function OrdersMainSection() {
               <div className='card'>
                 <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                    <h6 className="text-white text-capitalize fs-5 ps-5">Listed products</h6>
+                    <h6 className="text-white text-capitalize fs-5 ps-5">CURRENT ORDERS</h6>
                   </div>
                 </div>
                 <div className="card-body px-5 pb-2">
@@ -43,10 +43,10 @@ function OrdersMainSection() {
                       <thead>
                         <tr>
                           <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order #</th>
-                          <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client</th>
-                          <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                          <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total price</th>
-                          <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">check details</th>
+                          <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client</th>
+                          <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                          <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total price</th>
+                          <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">check details</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -59,20 +59,20 @@ function OrdersMainSection() {
                                 </div>
                               </div>
                             </td>
-                            <td className="align-middle text-center text-sm">
+                            <td className="align-middle text-start text-sm">
                               {order.user &&
                               (<p className="text-xs font-weight-bold mb-0">{order.user.firstname} {order.user.lastname}</p>)
                               }
                             </td>
-                            <td className="align-middle text-center">
+                            <td className="align-middle text-start">
                               <span className="text-secondary text-xs font-weight-bold">{order.status.status} </span>
                             </td>
-                            <td className="align-middle text-center text-sm">
+                            <td className="align-middle text-start text-sm">
                               <span href="" className="text-secondary text-decoration-none">
                                 USD {Math.round(order.subtotal)}
                               </span>
                             </td>
-                            <td className="align-middle text-center text-sm">
+                            <td className="align-middle text-start text-sm">
                               <OrderInfoModal orderId={order} key={order._id} />
                             </td>
                           </tr>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { useSelector } from 'react-redux';
 
 function AddAdminModal() {
   const handleClose = () => setShow(false);
@@ -10,6 +11,7 @@ function AddAdminModal() {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const baseURL = import.meta.env.VITE_API_BASE_URL;
+  const loggedAdmin = useSelector((state) => state.admin);
   
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -22,6 +24,9 @@ function AddAdminModal() {
         method: "POST",
         url: `${baseURL}/admins`,
         data: { firstname, lastname, email, password },
+        headers:{
+            Authorization: `Bearer ${loggedAdmin.token}`,
+            }
       })
       setValidated(true);
       handleClose();

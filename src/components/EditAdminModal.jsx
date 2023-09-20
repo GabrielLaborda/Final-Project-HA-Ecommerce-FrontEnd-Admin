@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { MdModeEdit } from 'react-icons/md';
+import { useSelector } from 'react-redux';
 
 function EditAdminModal({adminId}) {
   const [show, setShow] = useState(false);
@@ -10,6 +12,7 @@ function EditAdminModal({adminId}) {
   const [validated, setValidated] = useState(false);
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [oneAdmin, setOneAdmin] = useState(null);
+  const loggedAdmin = useSelector((state) => state.admin);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +25,9 @@ function EditAdminModal({adminId}) {
         const response = await axios({
           method: 'GET',
           url: `${baseURL}/admins/${adminId}`,
+          headers:{
+            Authorization: `Bearer ${loggedAdmin.token}`,
+            }
         });
         setOneAdmin(response.data);
         setFirstname(response.data.firstname);
@@ -39,7 +45,10 @@ function EditAdminModal({adminId}) {
       await axios({
         method: 'PATCH',
         url: `${baseURL}/admins/${adminId}`,
-        data: { firstname, lastname, email, password }
+        data: { firstname, lastname, email, password },
+        headers:{
+            Authorization: `Bearer ${loggedAdmin.token}`,
+            }
       })
       setValidated(true);
       handleClose();
@@ -54,8 +63,8 @@ function EditAdminModal({adminId}) {
   }
 
     return (
-    <>
-        <h6 role="button" onClick={handleShow} className="text-secondary text-decoration-none p-0 m-0">Edit</h6>
+      <>
+        <MdModeEdit onClick={handleShow} className='text-warning' role='button'/>
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit employee</Modal.Title>
@@ -77,12 +86,6 @@ function EditAdminModal({adminId}) {
                         className="mb-3"
                         controlId="password">
                         <Form.Label className='fw-bold'>New password</Form.Label>
-                        <Form.Control type='password' placeholder='password'/>
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="passwordRepeat">
-                        <Form.Label className='fw-bold'>Repeat new password</Form.Label>
                         <Form.Control type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)}/>
                       </Form.Group>
                 </Form>

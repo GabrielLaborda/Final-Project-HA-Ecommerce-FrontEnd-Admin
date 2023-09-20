@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { MdModeEdit } from 'react-icons/md';
+import { TiDeleteOutline } from 'react-icons/ti';
 
 function CategoriesMainSection() {  
 
@@ -21,8 +23,8 @@ function CategoriesMainSection() {
   return (
     <>
       {allCategories && (<div className="row g-0 w-75">
-          <div className='m-0'>
-          <div className="col-12 p-0">
+          <div className='m-0 d-flex justify-content-center'>
+          <div className="col-10 p-0">
             <div className="container my-4 py-4">
               <div className='card'>
                 <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
@@ -35,31 +37,30 @@ function CategoriesMainSection() {
                     <table className="table align-items-center mb-2">
                       <thead>
                         <tr>
-                          <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category</th>
-                          <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">prod Quantity</th>
-                          <th className="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                          <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category</th>
+                          <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">prod Quantity</th>
+                          <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                          <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                         </tr>
                       </thead>
                       <tbody>
                         {allCategories.map((category) => (
                           <tr key={category._id}>
                             <td className="align-middle text-start text-sm">
-                              <div className="d-flex px-2 py-1">
-                                {/* <div>
-                                  <img src="" alt="user.picture" />
-                                </div> */}
+                              <div className="d-flex px-0 py-1">
                                 <div className="d-flex flex-column justify-content-center">
                                   <h6 className="mb-0 text-sm">{category.name}</h6>
                                 </div>
                               </div>
                             </td>
-                            <td className="align-middle text-center text-sm">
+                            <td className="align-middle text-start text-sm">
                               <p className="text-xs font-weight-bold mb-0">{category.products.length} products</p>
                             </td>
-                            <td className="align-middle text-end text-sm">
-                              <a href="" className="text-secondary text-decoration-none">
-                                Edit
-                              </a>
+                            <td className="align-middle text-start text-sm">
+                              <MdModeEdit className='text-warning' role='button'/>
+                            </td>
+                            <td className="align-middle text-start text-sm">
+                              <TiDeleteOutline onClick={() => handleDelete(admin._id, admin.firstname)} className='text-danger' role='button' />
                             </td>
                           </tr>
                         ))}
