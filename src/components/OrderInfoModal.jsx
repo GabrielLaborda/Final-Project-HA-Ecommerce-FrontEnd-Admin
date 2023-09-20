@@ -14,7 +14,8 @@ function OrderInfoModal({orderId}) {
     const loggedAdmin = useSelector((state) => state.admin);
 
     // get order info
-
+    
+    const [allOrderStatus, setAllOrderStatus] = useState([]);
     const [user, setUser] = useState("");
     const [products, setProducts] = useState([]);
     const [status, setStatus] = useState({});
@@ -46,8 +47,7 @@ function OrderInfoModal({orderId}) {
 
     // get order status (form options)
 
-    const [allOrderStatus, setAllOrderStatus] = useState([]);
-
+    useEffect(() => {
         const getAllOrderStatus = async () => {
         try {
             const response = await axios({
@@ -61,9 +61,7 @@ function OrderInfoModal({orderId}) {
         } catch (error) {
             console.log(error);
         }
-    }
-    
-    useEffect(() => {
+        }
     getAllOrderStatus();
     }, []);
 
@@ -139,7 +137,7 @@ function OrderInfoModal({orderId}) {
                             }}>
                                 <option>Select new Order Status</option>
                                 {allOrderStatus.map((orderStatus) => (
-                                <option value={orderStatus._id} key={orderStatus._id}>{orderStatus.status}
+                                <option key={orderStatus._id} value={orderStatus._id} >{orderStatus.status}
                                 </option>
                                 ))}
                             </Form.Select>

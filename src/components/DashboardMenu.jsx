@@ -4,6 +4,10 @@ import "./DashboardMenu.css"
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/adminSlice';
+import { BsPieChartFill, BsPeopleFill, BsFillBagPlusFill } from "react-icons/bs";
+import { FaListCheck, FaPeopleGroup } from "react-icons/fa6";
+import { FaShoppingCart } from "react-icons/fa";
+
 
 function DashboardMenu() {
   const dispatch = useDispatch();
@@ -31,32 +35,38 @@ function DashboardMenu() {
             <div className="w-auto max-height-vh-100">
               <ul className="navbar-nav">
                 <li className="nav-item adminMenuOptions">
-                  <div className="text-white text-center me-2 d-flex align-items-center ps-4">
-                    <NavLink className={'text-decoration-none'} to={'/'} end style={navLinkStyles}>DASHBOARD</NavLink>
+                <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                  <BsPieChartFill className='ms-1 me-3' />
+                    <NavLink className={'text-decoration-none'} to={'/'} end style={navLinkStyles}> DASHBOARD</NavLink>
                   </div>
                 </li>
                 <li className="nav-item adminMenuOptions">
-                  <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                  <BsPeopleFill className='ms-1 me-3' />
                     <NavLink className={'text-decoration-none'} to={'/users'} end style={navLinkStyles}>USERS</NavLink>
                   </div>
                 </li>
                 <li className="nav-item adminMenuOptions">
-                  <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                  <FaListCheck className='ms-1 me-3' />
                     <NavLink className={'text-decoration-none'} to={'/categories'} end style={navLinkStyles}>CATEGORIES</NavLink>
                   </div>
                 </li>
                 <li className="nav-item adminMenuOptions">
-                  <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                  <BsFillBagPlusFill className='ms-1 me-3' />
                     <NavLink className={'text-decoration-none'} to={'/products'} end style={navLinkStyles}>PRODUCTS</NavLink>
                   </div>
                 </li>
                 <li className="nav-item adminMenuOptions">
-                  <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                  <FaShoppingCart className='ms-1 me-3' />
                     <NavLink className={'text-decoration-none'} to={'/orders'} end style={navLinkStyles}>ORDERS</NavLink>
                   </div>
                 </li>
                 <li className="nav-item adminMenuOptions">
-                  <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                <div className="text-white text-center me-2 d-flex align-items-center ps-4">
+                  <FaPeopleGroup className='ms-1 me-3' />
                     <NavLink className={'text-decoration-none'} to={'/staff'} end style={navLinkStyles}>STAFF</NavLink>
                   </div>
               </li>
@@ -64,7 +74,7 @@ function DashboardMenu() {
           </div>
           <div className="sidenav-footer position-absolute w-100 bottom-0 ">
             <div className="m-3">
-              <a onClick={handleLogout} className="btn bg-dark text-warning border-1 border-white mt-4 w-100 py-2" href="https://urbanrush.vercel.app" type="button">GO TO SHOP</a>
+              <a onClick={handleLogout} className="btn bg-dark text-white border-0 border-white mt-4 w-100 py-2" href="https://urbanrush.vercel.app" type="button">GO TO SHOP</a>
             </div>
           </div>
           </aside>

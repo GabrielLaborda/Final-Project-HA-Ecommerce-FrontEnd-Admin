@@ -23,7 +23,7 @@ function StaffMainSection() {
 
   useEffect(() => {
     getAllAdmin();
-  }, [allAdmin]);
+  }, []);
 
   const handleDelete = async (id, firstname) => {
     try {

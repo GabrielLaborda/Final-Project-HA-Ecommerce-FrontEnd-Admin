@@ -23,7 +23,7 @@ function OrdersMainSection() {
 
   useEffect(() => {
     getAllOrders();
-  },);
+  },[]);
 
   return (
     <>
