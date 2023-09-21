@@ -10,6 +10,14 @@ function EditProductModal({ getAllProducts, productSlug }) {
   const loggedAdmin = useSelector((state) => state.admin);
   const [validated, setValidated] = useState(false);
 
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [picture, setPicture] = useState("");
+  const [price, setPrice] = useState(0);
+  const [stock, setStock] = useState(0);
+  const [featured, setFeatured] = useState(false);
+  const [category, setCategory] = useState(null);
+
   const [product, setProduct] = useState('');
 
   const handleClose = () => setShow(false);
@@ -57,20 +65,10 @@ function EditProductModal({ getAllProducts, productSlug }) {
     }
 
   useEffect(() => {
-    getAllCategories();
     getOneProduct();
+    getAllCategories();
     handleShow();
   }, []);
-
-  // post new product data
-
-  const [name, setName] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [picture, setPicture] = useState(null);
-  const [price, setPrice] = useState(0);
-  const [stock, setStock] = useState(0);
-  const [featured, setFeatured] = useState(false);
-  const [category, setCategory] = useState(null);
 
   const hanldeFilesPictures = (pictures) => {
     setPicture(pictures);
@@ -108,7 +106,7 @@ function EditProductModal({ getAllProducts, productSlug }) {
 
   return (
     <>
-      {allCategories && (
+      {product && (
         <>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>

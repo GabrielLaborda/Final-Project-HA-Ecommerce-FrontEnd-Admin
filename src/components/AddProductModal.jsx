@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
 
-function AddProductModal({ handleSubmitListener, setHandleSubmitListener }) {
+function AddProductModal({ getAllProducts }) {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [show, setShow] = useState(false);
   const loggedAdmin = useSelector((state) => state.admin);
@@ -71,7 +71,7 @@ function AddProductModal({ handleSubmitListener, setHandleSubmitListener }) {
       setPrice(0);
       setStock(0);
       setFeatured(false);
-      setHandleSubmitListener(prevState => !prevState);
+      getAllProducts();
     } catch (error) {
       console.log(error);
       window.alert('Error: ' + error);

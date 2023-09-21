@@ -11,7 +11,7 @@ import EditProductModal from './EditProductModal';
 function ProductsMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [allProducts, setAllProducts] = useState(null);
-  const [handleSubmitListener, setHandleSubmitListener] = useState(false)
+  // const [handleSubmitListener, setHandleSubmitListener] = useState(false)
   const loggedAdmin = useSelector((state) => state.admin);
   const [activeProductSlug, setActiveProductSlug] = useState(null);
   const handleAxiosModal = (productSlug) => setActiveProductSlug(productSlug);
@@ -29,7 +29,7 @@ function ProductsMainSection() {
 
   useEffect(() => {
     getAllProducts();
-  }, [handleSubmitListener]);
+  }, []);
 
   const handleDelete = async (name, slug) => {
     try {
@@ -43,7 +43,7 @@ function ProductsMainSection() {
       },
       });
       window.alert('product deleted');
-      setHandleSubmitListener();
+      getAllProducts();
     } catch (error) {
       console.error(error);
       window.alert(error);
@@ -113,7 +113,7 @@ function ProductsMainSection() {
                               <td className="align-middle text-sm">
                               {product.slug === activeProductSlug && (
                                 <EditProductModal 
-                                productSlug={product} 
+                                productSlug={product.slug} 
                                 key={product._id} 
                                 onClose={()=> setActiveProductSlug(null)}
                                 getAllProducts={getAllProducts}
@@ -135,7 +135,7 @@ function ProductsMainSection() {
                     </div>
                     <div className="d-flex justify-content-center mb-4">
                       <AddProductModal
-                        handleSubmitListener={handleSubmitListener} setHandleSubmitListener={setHandleSubmitListener}
+                         getAllProducts={getAllProducts}
                       />
                     </div>
                   </div>
