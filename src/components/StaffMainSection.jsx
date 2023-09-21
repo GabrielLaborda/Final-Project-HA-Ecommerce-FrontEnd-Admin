@@ -10,7 +10,7 @@ function StaffMainSection() {
   const [allAdmin, setAllAdmin] = useState(null);
   const loggedAdmin = useSelector((state) => state.admin);
 
-  useEffect(() => {
+ 
   const getAllAdmin = async () => {
     const response = await axios({
       method: 'GET',
@@ -20,6 +20,8 @@ function StaffMainSection() {
       },
     });
     setAllAdmin(response.data);};
+
+    useEffect(() => {
     getAllAdmin();
   }, []);
 
@@ -35,6 +37,7 @@ function StaffMainSection() {
       },
       });
       window.alert('admin deleted');
+      getAllAdmin();
     } catch (error) {
       console.error(error);
       window.alert(error);
@@ -104,7 +107,7 @@ function StaffMainSection() {
                                 </span>
                               </td>
                               <td className="align-middle text-sm">
-                                <EditAdminModal adminId={admin._id} />
+                                <EditAdminModal adminId={admin._id} getAllAdmin={getAllAdmin}/>
                               </td>
                               <td className="align-middle text-sm">
                                 <TiDeleteOutline
@@ -119,7 +122,7 @@ function StaffMainSection() {
                       </table>
                     </div>
                     <div className="d-flex justify-content-center mb-4">
-                      <AddAdminModal />
+                      <AddAdminModal  getAllAdmin={getAllAdmin}/>
                     </div>
                   </div>
                 </div>

@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { MdModeEdit } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
-function EditAdminModal({adminId}) {
+function EditAdminModal({adminId, getAllAdmin}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -40,7 +40,8 @@ function EditAdminModal({adminId}) {
       getOneAdmin();
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
       await axios({
         method: 'PATCH',
@@ -57,6 +58,7 @@ function EditAdminModal({adminId}) {
       setLastname("");
       setEmail("");
       setPassword("");
+      getAllAdmin()
     } catch (error) {
       console.log(error);
     }
@@ -75,25 +77,25 @@ function EditAdminModal({adminId}) {
                 <h6 className='fw-bold'>Lastname</h6>
                 <p>{lastname}</p>
                 <Form validated={validated} onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="email">
+                    <Form.Group className="mb-3">
                       <Form.Label className='fw-bold'>Email address</Form.Label>
                       <Form.Control
                         type="email"
                         placeholder={email}
+                        name='email'
+                        id='email'
                         onChange={(e) => setEmail(e.target.value)}/>
                       </Form.Group>
                       <Form.Group
-                        className="mb-3"
-                        controlId="password">
+                        className="mb-3">
                         <Form.Label className='fw-bold'>New password</Form.Label>
-                        <Form.Control type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)}/>
+                        <Form.Control type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} name='password' id='password'/>
                       </Form.Group>
+                      <hr />
+                      <button onClick={handleClose} className='ms-3 px-3 py-1 btn btn-outline-dark rounded-0'>Close</button>
+                    <button type='submit' className='ms-3 px-3 py-1 btn btn-dark rounded-0'>Save Changes</button>
                 </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                    <button onClick={handleClose} className='ms-3 px-3 py-1 btn btn-outline-dark rounded-0'>Close</button>
-                    <button type='submit' onClick={() => handleSubmit(adminId._id,adminId.email, adminId.password)} className='ms-3 px-3 py-1 btn btn-dark rounded-0'>Save new employee</button>
-                </Modal.Footer>
       </Modal>
     </>
   );

@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
 
-function AddAdminModal() {
+function AddAdminModal({ getAllAdmin }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [show, setShow] = useState(false);
@@ -18,7 +18,8 @@ function AddAdminModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
       await axios({
         method: "POST",
@@ -34,6 +35,7 @@ function AddAdminModal() {
       setLastname("");
       setEmail("");
       setPassword("");
+      getAllAdmin();
     } catch (error) {
       console.error(error);
       // Add toast!!

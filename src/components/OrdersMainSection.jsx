@@ -8,7 +8,9 @@ function OrdersMainSection() {
 
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [allOrders, setAllOrders] = useState([]);
+  const [activeOrderId, setActiveOrderId] = useState(null);
   const loggedAdmin = useSelector((state) => state.admin);
+  const handleAxiosModal = (orderId) => setActiveOrderId(orderId);
 
   const getAllOrders = async () => {
     const response = await axios({
@@ -73,7 +75,15 @@ function OrdersMainSection() {
                               </span>
                             </td>
                             <td className="align-middle text-start text-sm">
-                              <OrderInfoModal orderId={order} key={order._id} />
+                              {order._id === activeOrderId && (
+                                <OrderInfoModal 
+                                orderId={order} 
+                                key={order._id} 
+                                onClose={()=> setActiveOrderId(null)}
+                                getAllOrders={getAllOrders}
+                                />
+                              )}
+                              <p onClick={()=>handleAxiosModal(order._id)}>View info</p>
                             </td>
                           </tr>
                         ))}

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
 
-function OrderInfoModal({orderId}) {
+function OrderInfoModal({orderId, getAllOrders}) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -22,7 +22,9 @@ function OrderInfoModal({orderId}) {
     const [subtotal, setSubtotal] = useState("");
     const [boughtDate, setBoughtDate] = useState("");
 
+
     useEffect(() => {
+        
         const getOneOrder = async () => {
         try {
             const response = await axios({
@@ -32,6 +34,7 @@ function OrderInfoModal({orderId}) {
             Authorization: `Bearer ${loggedAdmin.token}`,
             },
             });
+            handleShow()
             setOneOrder(response.data);
             setUser(response.data.user);
             setProducts(response.data.products);
@@ -65,9 +68,12 @@ function OrderInfoModal({orderId}) {
     getAllOrderStatus();
     }, []);
 
+
+
     // update order
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
     try {
       await axios({
         method: 'PATCH',
@@ -80,17 +86,16 @@ function OrderInfoModal({orderId}) {
         setValidated(true);
         setStatus({});
         handleClose();
+        getAllOrders();
         } catch (error) {
         console.log(error);
         }
         }
 
-    
-
     return (
         <>
             { user && (<>
-                <h6 role="button" href="" onClick={handleShow} className="text-secondary text-decoration-none">View info</h6>
+                {/* <h6 role="button" href="" onClick={handleShow} className="text-secondary text-decoration-none">View info</h6> */}
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Order info</Modal.Title>
@@ -113,7 +118,7 @@ function OrderInfoModal({orderId}) {
                         </div>
                     </div>
                     <h6 className='fw-bold'>Bought products</h6>
-                        {products.map((product) => (
+                        {products && products.map((product) => (
                     <div key={product._id} className='row'>
                             <div className='d-flex'> 
                         <div className="col-8">
