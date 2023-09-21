@@ -6,16 +6,17 @@ import { useSelector } from 'react-redux';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { FiEdit2 } from 'react-icons/fi';
 import { MdModeEdit } from 'react-icons/md';
+import EditProductModal from './EditProductModal';
 
 function ProductsMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [allProducts, setAllProducts] = useState(null);
   const [handleSubmitListener, setHandleSubmitListener] = useState(false)
   const loggedAdmin = useSelector((state) => state.admin);
-
-  useEffect(() => {
+  const [activeProductSlug, setActiveProductSlug] = useState(null);
+  const handleAxiosModal = (productSlug) => setActiveProductSlug(productSlug);
+  
   const getAllProducts = async () => {
-    console.log('getting products');
     const response = await axios({
       method: 'GET',
       url: `${baseURL}/products`,
@@ -25,6 +26,8 @@ function ProductsMainSection() {
     });
     setAllProducts(response.data);
   };
+
+  useEffect(() => {
     getAllProducts();
   }, [handleSubmitListener]);
 
@@ -108,7 +111,15 @@ function ProductsMainSection() {
                                 </a>
                               </td>
                               <td className="align-middle text-sm">
-                                <MdModeEdit className="text-warning" role="button" />
+                              {product.slug === activeProductSlug && (
+                                <EditProductModal 
+                                productSlug={product} 
+                                key={product._id} 
+                                onClose={()=> setActiveProductSlug(null)}
+                                getAllProducts={getAllProducts}
+                                />
+                              )}
+                              <p onClick={()=>handleAxiosModal(product.slug)}><MdModeEdit className="text-warning" role="button" /></p>
                               </td>
                               <td className="align-middle text-sm">
                                 <TiDeleteOutline
