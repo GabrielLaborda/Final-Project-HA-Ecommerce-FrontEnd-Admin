@@ -11,7 +11,6 @@ import EditProductModal from './EditProductModal';
 function ProductsMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [allProducts, setAllProducts] = useState(null);
-  // const [handleSubmitListener, setHandleSubmitListener] = useState(false)
   const loggedAdmin = useSelector((state) => state.admin);
   const [activeProductSlug, setActiveProductSlug] = useState(null);
   const handleAxiosModal = (productSlug) => setActiveProductSlug(productSlug);

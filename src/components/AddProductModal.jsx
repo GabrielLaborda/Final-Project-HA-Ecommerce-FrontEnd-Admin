@@ -50,6 +50,10 @@ function AddProductModal({ getAllProducts }) {
     setPicture(pictures);
   };
 
+  const handleSwitch = (event) => {
+    setFeatured(event.target.checked);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -63,7 +67,7 @@ function AddProductModal({ getAllProducts }) {
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
       });
-      setValidated(true);
+      setValidated(false);
       handleClose();
       setName('');
       setDescription('');
@@ -162,14 +166,15 @@ function AddProductModal({ getAllProducts }) {
                   </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="featured">
-                  <Form.Label className="fw-bold">Featured</Form.Label>
+                  <Form.Label className="fw-bold">Featured
                   <Form.Check
                     name="featured"
-                    onChange={(e) => setFeatured(!featured)}
                     value={featured}
                     type="switch"
                     label="Featured"
+                    onChange={(event) => handleSwitch(event)}
                   />
+                  </Form.Label>
                 </Form.Group>
                 <hr />
                 <button type="submit" className="ms-3 px-3 py-1 btn btn-dark rounded-0">

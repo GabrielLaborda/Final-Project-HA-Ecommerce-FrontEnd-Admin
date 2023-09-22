@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
 
-function EditProductModal({ getAllProducts, productSlug }) {
+function EditProductModal({ getAllProducts, productSlug, onClose }) {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [show, setShow] = useState(false);
   const loggedAdmin = useSelector((state) => state.admin);
@@ -12,35 +12,17 @@ function EditProductModal({ getAllProducts, productSlug }) {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [picture, setPicture] = useState("");
   const [price, setPrice] = useState(0);
   const [stock, setStock] = useState(0);
   const [featured, setFeatured] = useState(false);
-  const [category, setCategory] = useState(null);
 
   const [product, setProduct] = useState('');
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    onClose();
+  }
   const handleShow = () => setShow(true);
-  
-  // get category options (form options)
-
-  const [allCategories, setAllCategories] = useState([]);
-
-  const getAllCategories = async () => {
-    try {
-      const response = await axios({
-        method: 'GET',
-        url: `${baseURL}/categories`,
-        headers: {
-          Authorization: `Bearer ${loggedAdmin.token}`,
-        },
-      });
-      setAllCategories(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
     const getOneProduct = async () => {
       try {
@@ -54,11 +36,9 @@ function EditProductModal({ getAllProducts, productSlug }) {
         setProduct(response.data); 
         setName(response.data.name);
         setDescription(response.data.description);
-        setPicture(response.data.picture);
         setPrice(response.data.price);
         setStock(response.data.stock);
         setFeatured(response.data.featured);
-        setCategory(response.data.category);
       } catch (error) {
         console.log(error);
       }
@@ -66,24 +46,17 @@ function EditProductModal({ getAllProducts, productSlug }) {
 
   useEffect(() => {
     getOneProduct();
-    getAllCategories();
     handleShow();
   }, []);
-
-  const hanldeFilesPictures = (pictures) => {
-    setPicture(pictures);
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const formData = new FormData(event.target);
       await axios({
         method: 'PATCH',
         url: `${baseURL}/products/${productSlug}`,
-        data: formData,
+        data: {name, description, price, stock, featured},
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
       });
@@ -91,11 +64,10 @@ function EditProductModal({ getAllProducts, productSlug }) {
       handleClose();
       setName('');
       setDescription('');
-      setPicture([]);
       setPrice(0);
       setStock(0);
       setFeatured(false);
-      setHandleSubmitListener(prevState => !prevState);
+      onClose();
       getAllProducts();
     } catch (error) {
       console.log(error);
@@ -107,7 +79,6 @@ function EditProductModal({ getAllProducts, productSlug }) {
   return (
     <>
       {product && (
-        <>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Edit product</Modal.Title>
@@ -135,15 +106,6 @@ function EditProductModal({ getAllProducts, productSlug }) {
                     placeholder="product description"
                   />
                 </Form.Group>
-                <Form.Group controlId="picture" className="mb-3">
-                  <Form.Label className="fw-bold">Pictures</Form.Label>
-                  <Form.Control
-                    name="picture"
-                    onChange={(e) => hanldeFilesPictures(e.target.files)}
-                    type="file"
-                    multiple
-                  />
-                </Form.Group>
                 <Form.Group className="mb-3" controlId="price">
                   <Form.Label className="fw-bold">Price</Form.Label>
                   <Form.Control
@@ -164,30 +126,13 @@ function EditProductModal({ getAllProducts, productSlug }) {
                     placeholder="quantity"
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="category">
-                  <Form.Label className="fw-bold">Category</Form.Label>
-                  <Form.Select
-                    name="category"
-                    aria-label="Status"
-                    value={category}
-                    onChange={(e) => {
-                      setCategory(e.currentTarget.value);
-                    }}
-                  >
-                    <option>Select product category</option>
-                    {allCategories.map((category) => (
-                      <option value={category._id} key={category._id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
                 <Form.Group className="mb-3" controlId="featured">
                   <Form.Label className="fw-bold">Featured</Form.Label>
                   <Form.Check
                     name="featured"
                     onChange={(e) => setFeatured(!featured)}
                     value={featured}
+                    checked={featured}
                     type="switch"
                     label="Featured"
                   />
@@ -205,7 +150,6 @@ function EditProductModal({ getAllProducts, productSlug }) {
               </Form>
             </Modal.Body>
           </Modal>
-        </>
       )}
     </>
   );
