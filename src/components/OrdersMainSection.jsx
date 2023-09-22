@@ -39,9 +39,9 @@ function OrdersMainSection() {
                     <h6 className="text-white text-capitalize fs-5 ps-5">CURRENT ORDERS</h6>
                   </div>
                 </div>
-                <div className="card-body px-5 pb-2">
+                <div className="card-body px-5 pb-2 bg-light">
                   <div className="table p-1">
-                    <table className="table align-items-center mb-2">
+                    <table className="table align-items-center mb-2 table-light">
                       <thead>
                         <tr>
                           <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order #</th>
@@ -83,7 +83,7 @@ function OrdersMainSection() {
                                 getAllOrders={getAllOrders}
                                 />
                               )}
-                              <p onClick={()=>handleAxiosModal(order._id)}>View info</p>
+                              <p onClick={()=>handleAxiosModal(order._id)} role='button' className='text-decoration-underline p-0 m-0'>View info</p>
                             </td>
                           </tr>
                         ))}
