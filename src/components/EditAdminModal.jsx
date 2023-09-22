@@ -51,7 +51,7 @@ function EditAdminModal({adminId, getAllAdmin}) {
             Authorization: `Bearer ${loggedAdmin.token}`,
             }
       })
-      setValidated(true);
+      setValidated(false);
       handleClose();
       setOneAdmin(null);
       setFirstname("");

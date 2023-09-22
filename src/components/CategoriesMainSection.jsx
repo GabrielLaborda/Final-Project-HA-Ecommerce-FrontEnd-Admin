@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { MdModeEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { TiDeleteOutline } from "react-icons/ti";
+import EditCategoryModal from "./EditCategoryModal";
 
 function CategoriesMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -11,6 +12,9 @@ function CategoriesMainSection() {
   const [pictures, setPictures] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  
+  const [activeCategorySlug, setActiveCategorySlug] = useState(null);
+  const handleAxiosModal = (categorySlug) => setActiveCategorySlug(categorySlug);
 
   const getAllCategories = async () => {
     const response = await axios({
@@ -120,10 +124,15 @@ function CategoriesMainSection() {
                                 </p>
                               </td>
                               <td className="align-middle text-start text-sm">
-                                <MdModeEdit
-                                  className="text-warning"
-                                  role="button"
+                              {category.slug === activeCategorySlug && (
+                                <EditCategoryModal 
+                                categorySlug={category.slug} 
+                                key={category._id} 
+                                onClose={()=> setActiveCategorySlug(null)}
+                                getAllCategories={getAllCategories}
                                 />
+                              )}
+                              <p onClick={()=>handleAxiosModal(category.slug)} className="p-0 m-0"><MdModeEdit className="text-warning" role="button" /></p>
                               </td>
                               <td className="align-middle text-start text-sm">
                                 <TiDeleteOutline

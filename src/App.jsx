@@ -14,9 +14,9 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path='/login' element={<AdminLogin />} />
         <Route path='/' element={<AdminHome />}>
           <Route path="/" element={<HomeMainSection />} />
-          <Route path='/login' element={<AdminLogin />} />
           <Route path="/users" element={<UsersMainSection />} />
           <Route path="/categories" element={<CategoriesMainSection />} />
           <Route path="/products" element={<ProductsMainSection />} />
