@@ -12,9 +12,10 @@ function CategoriesMainSection() {
   const [pictures, setPictures] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  
+
   const [activeCategorySlug, setActiveCategorySlug] = useState(null);
-  const handleAxiosModal = (categorySlug) => setActiveCategorySlug(categorySlug);
+  const handleAxiosModal = (categorySlug) =>
+    setActiveCategorySlug(categorySlug);
 
   const getAllCategories = async () => {
     const response = await axios({
@@ -34,7 +35,7 @@ function CategoriesMainSection() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(pictures)
+    console.log(pictures);
     try {
       const formData = new FormData(event.target);
       await axios({
@@ -60,14 +61,14 @@ function CategoriesMainSection() {
   const handleDelete = async (name, slug) => {
     try {
       await axios({
-        method: 'DELETE',
+        method: "DELETE",
         url: `${baseURL}/categories/${slug}`,
         data: { slug: slug },
         headers: {
-        Authorization: `Bearer ${loggedAdmin.token}`,
-      },
+          Authorization: `Bearer ${loggedAdmin.token}`,
+        },
       });
-      window.alert('product deleted');
+      window.alert("product deleted");
       getAllCategories();
     } catch (error) {
       console.error(error);
@@ -86,8 +87,8 @@ function CategoriesMainSection() {
                 <div className="card">
                   <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-light">
                     <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                      <h6 className="text-white text-capitalize fs-5 ps-5">
-                        Categories
+                      <h6 className="text-white fs-5 ps-5">
+                        CATEGORY
                       </h6>
                     </div>
                   </div>
@@ -97,7 +98,7 @@ function CategoriesMainSection() {
                         <thead>
                           <tr>
                             <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Category
+                              CATEGORY
                             </th>
                             <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                               prod Quantity
@@ -124,15 +125,25 @@ function CategoriesMainSection() {
                                 </p>
                               </td>
                               <td className="align-middle text-start text-sm">
-                              {category.slug === activeCategorySlug && (
-                                <EditCategoryModal 
-                                categorySlug={category.slug} 
-                                key={category._id} 
-                                onClose={()=> setActiveCategorySlug(null)}
-                                getAllCategories={getAllCategories}
-                                />
-                              )}
-                              <p onClick={()=>handleAxiosModal(category.slug)} className="p-0 m-0"><MdModeEdit className="text-warning" role="button" /></p>
+                                {category.slug === activeCategorySlug && (
+                                  <EditCategoryModal
+                                    categorySlug={category.slug}
+                                    key={category._id}
+                                    onClose={() => setActiveCategorySlug(null)}
+                                    getAllCategories={getAllCategories}
+                                  />
+                                )}
+                                <p
+                                  onClick={() =>
+                                    handleAxiosModal(category.slug)
+                                  }
+                                  className="p-0 m-0"
+                                >
+                                  <MdModeEdit
+                                    className="text-warning"
+                                    role="button"
+                                  />
+                                </p>
                               </td>
                               <td className="align-middle text-start text-sm">
                                 <TiDeleteOutline
@@ -148,46 +159,62 @@ function CategoriesMainSection() {
                         </tbody>
                       </table>
                     </div>
-                    <div className="d-flex justify-content-center mb-4">
+                    <div className="d-flex justify-content-start mb-4 px-2">
                       <form
-                        className="d-flex"
+                        className="d-flex flex-column"
                         onSubmit={handleSubmit}
                       >
-                        <label htmlFor="name"></label>
-                        <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          value={name}
-                          placeholder="New category"
-                          onChange={(event)=>setName(event.target.value)}
-                          className="mx-3 form-control rounded-0"
-                        />
-                        <label htmlFor="description"></label>
-                        <input
-                          type="text"
-                          name="description"
-                          id="description"
-                          value={description}
-                          placeholder="Description"
-                          onChange={(event)=>setDescription(event.target.value)}
-                          className="mx-3 form-control rounded-0"
-                        />
-                        <label htmlFor="newCategoryPictures"></label>
-                        <input
-                          id="pictures"
-                          name="pictures"
-                          onChange={(e) => hanldeFilesPictures(e.target.files)}
-                          type="file"
-                          multiple
-                          className="form-control rounded-0"
-                        />
-                        <button
+                        <h6 className="fw-bold mt-2">ADD NEW CATEGORY</h6>
+                        <div className="row">
+                          <div className="col-6">
+                          <label htmlFor="name"></label>
+                          <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            value={name}
+                            placeholder="New category"
+                            onChange={(event) => setName(event.target.value)}
+                            className="form-control rounded-0"
+                          />
+                          </div>
+                          <div className="col-6">
+                          <label htmlFor="description"></label>
+                          <input
+                            type="text"
+                            name="description"
+                            id="description"
+                            value={description}
+                            placeholder="Description"
+                            onChange={(event) =>
+                              setDescription(event.target.value)
+                            }
+                            className="form-control rounded-0"
+                          />
+                          </div>
+                          <div className="col-12">
+                          <label htmlFor="newCategoryPictures"></label>
+                          <input
+                            id="pictures"
+                            name="pictures"
+                            onChange={(e) =>
+                              hanldeFilesPictures(e.target.files)
+                            }
+                            type="file"
+                            multiple
+                            className="form-control rounded-0"
+                          />
+                          </div>
+                          <div className="col-12">
+                          <button
                           type="submit"
-                          className="mx-3 px-3 py-1 btn btn-outline-dark rounded-0 form-control"
+                          className="pt-1 mt-4 btn btn-outline-dark rounded-0 form-control"
                         >
                           Add new category
                         </button>
+                          </div>
+                        </div>
+                     
                       </form>
                     </div>
                   </div>

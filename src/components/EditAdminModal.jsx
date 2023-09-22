@@ -2,16 +2,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { MdModeEdit } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
-function EditAdminModal({adminId, getAllAdmin}) {
+function EditAdminModal({adminId, getAllAdmin, onClose}) {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [validated, setValidated] = useState(false);
   const baseURL = import.meta.env.VITE_API_BASE_URL;
-  const [oneAdmin, setOneAdmin] = useState(null);
   const loggedAdmin = useSelector((state) => state.admin);
 
   const [email, setEmail] = useState("");
@@ -19,25 +15,35 @@ function EditAdminModal({adminId, getAllAdmin}) {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
 
-  useEffect(() => {
-    const getOneAdmin = async () => {
-      try {
-        const response = await axios({
-          method: 'GET',
-          url: `${baseURL}/admins/${adminId}`,
-          headers:{
-            Authorization: `Bearer ${loggedAdmin.token}`,
-            }
-        });
-        setOneAdmin(response.data);
-        setFirstname(response.data.firstname);
-        setLastname(response.data.lastname);
-        setEmail(response.data.email);
-      } catch (error) {
-        console.log(error);
-      }
+  const [admin, setAdmin] = useState("");
+
+  const handleClose = () => {
+    setShow(false)
+    onClose();
+  };
+  const handleShow = () => setShow(true);
+
+  const getOneAdmin = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${baseURL}/admins/${adminId}`,
+        headers:{
+          Authorization: `Bearer ${loggedAdmin.token}`,
+          }
+      });
+      setAdmin(response.data);
+      setFirstname(response.data.firstname);
+      setLastname(response.data.lastname);
+      setEmail(response.data.email);
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  useEffect(() => {
       getOneAdmin();
+      handleShow();
   }, []);
 
   const handleSubmit = async (event) => {
@@ -53,7 +59,7 @@ function EditAdminModal({adminId, getAllAdmin}) {
       })
       setValidated(false);
       handleClose();
-      setOneAdmin(null);
+      setAdmin(null);
       setFirstname("");
       setLastname("");
       setEmail("");
@@ -66,7 +72,7 @@ function EditAdminModal({adminId, getAllAdmin}) {
 
     return (
       <>
-        <MdModeEdit onClick={handleShow} className='text-warning' role='button'/>
+      {admin &&
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit employee</Modal.Title>
@@ -84,6 +90,7 @@ function EditAdminModal({adminId, getAllAdmin}) {
                         placeholder={email}
                         name='email'
                         id='email'
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}/>
                       </Form.Group>
                       <Form.Group
@@ -97,6 +104,7 @@ function EditAdminModal({adminId, getAllAdmin}) {
                 </Form>
                 </Modal.Body>
       </Modal>
+      }
     </>
   );
 }

@@ -29,7 +29,7 @@ function UsersMainSection() {
               <div className='card'>
                 <div className="card-header bg-light p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                    <h6 className="text-white text-capitalize fs-5 ps-5">Active users</h6>
+                    <h6 className="text-white fs-5 ps-5">ACTIVE USERS</h6>
                   </div>
                 </div>
                 <div className="card-body px-5 pb-2 bg-light">
@@ -48,9 +48,6 @@ function UsersMainSection() {
                           <tr key={user._id}>
                             <td className="align-middle text-start text-sm">
                               <div className="d-flex px-2 py-1">
-                                {/* <div>
-                                  <img src="" alt="user.picture" />
-                                </div> */}
                                 <div className="d-flex flex-column justify-content-center">
                                   <h6 className="mb-0 text-sm">{user.firstname}</h6>
                                   <p className="text-xs text-secondary mb-0">{user.lastname}</p>

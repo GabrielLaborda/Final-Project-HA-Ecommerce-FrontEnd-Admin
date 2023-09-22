@@ -4,12 +4,15 @@ import AddAdminModal from './AddAdminModal';
 import EditAdminModal from './EditAdminModal';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
+import { MdModeEdit } from 'react-icons/md';
 
 function StaffMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [allAdmin, setAllAdmin] = useState(null);
   const loggedAdmin = useSelector((state) => state.admin);
 
+  const [activeAdminId, setActiveAdminId ]= useState(null);
+  const handleAxiosModal = (adminId) => setActiveAdminId(adminId);
  
   const getAllAdmin = async () => {
     const response = await axios({
@@ -19,7 +22,8 @@ function StaffMainSection() {
         Authorization: `Bearer ${loggedAdmin.token}`,
       },
     });
-    setAllAdmin(response.data);};
+    setAllAdmin(response.data);
+  };
 
     useEffect(() => {
     getAllAdmin();
@@ -107,7 +111,14 @@ function StaffMainSection() {
                                 </span>
                               </td>
                               <td className="align-middle text-sm">
-                                <EditAdminModal adminId={admin._id} getAllAdmin={getAllAdmin}/>
+                                {admin._id === activeAdminId && (
+                                <EditAdminModal 
+                                adminId={admin._id} 
+                                key={admin._id} 
+                                onClose={()=> setActiveAdminId(null)}
+                                getAllAdmin={getAllAdmin}/>
+                              )}
+                              <p onClick={()=>handleAxiosModal(admin._id)} className="p-0 m-0"><MdModeEdit className="text-warning" role="button" /></p>
                               </td>
                               <td className="align-middle text-sm">
                                 <TiDeleteOutline

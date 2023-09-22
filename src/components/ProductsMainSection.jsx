@@ -106,7 +106,7 @@ function ProductsMainSection() {
                               </td>
                               <td className="align-middle text-start text-sm">
                                 <a href="" className="text-secondary text-decoration-none">
-                                  USD {product.price}
+                                  USD {product.price.toFixed(2)}
                                 </a>
                               </td>
                               <td className="align-middle text-sm">
@@ -118,7 +118,7 @@ function ProductsMainSection() {
                                 getAllProducts={getAllProducts}
                                 />
                               )}
-                              <p onClick={()=>handleAxiosModal(product.slug)}><MdModeEdit className="text-warning" role="button" /></p>
+                              <p onClick={()=>handleAxiosModal(product.slug)} className='p-0 m-0'><MdModeEdit className="text-warning" role="button" /></p>
                               </td>
                               <td className="align-middle text-sm">
                                 <TiDeleteOutline
