@@ -58,14 +58,14 @@ function ProductsMainSection() {
             <div className="col-12 p-0">
               <div className="container my-4 py-4">
                 <div className="card">
-                  <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-light">
                     <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
                       <h6 className="text-white text-capitalize fs-5 ps-5">LISTED PRODUCTS</h6>
                     </div>
                   </div>
-                  <div className="card-body px-4 pb-2">
+                  <div className="card-body px-4 pb-2 bg-light">
                     <div className="table p-1">
-                      <table className="table align-items-center mb-2">
+                      <table className="table table-light align-items-center mb-2">
                         <thead>
                           <tr>
                             <th className="text-starttext-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
