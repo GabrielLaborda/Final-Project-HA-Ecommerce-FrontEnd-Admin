@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useSelector } from "react-redux";
+import { toast } from 'react-toastify';
 
 function EditCategoryModal({ categorySlug, getAllCategories, onClose }) {
   const [show, setShow] = useState(false);
@@ -30,11 +31,21 @@ function EditCategoryModal({ categorySlug, getAllCategories, onClose }) {
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
       });
-      setCategory(response.data);
       setName(response.data.name);
       setDescription(response.data.description);
+      return setCategory(response.data);
     } catch (error) {
       console.log(error);
+      return toast.error(`Could not get this info, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -54,14 +65,34 @@ function EditCategoryModal({ categorySlug, getAllCategories, onClose }) {
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
       });
+       toast.success(`${name} updated successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setValidated(false);
       handleClose();
       setCategory(null);
       setName("");
       setDescription("");
-      getAllCategories();
+      return getAllCategories();
     } catch (error) {
       console.log(error);
+      return toast.error(`Could not update ${name}, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

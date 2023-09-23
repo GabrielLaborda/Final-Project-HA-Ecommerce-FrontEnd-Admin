@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./RegisterAndLogin.css";
 import { login } from "../redux/adminSlice";
 import { useSelector } from "react-redux";
+import { toast } from 'react-toastify';
 
 function AdminLogin() {
   const [email, setEmail] = useState("admin@example.com");
@@ -16,16 +17,38 @@ function AdminLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios({
-      url: `${baseURL}/login/admin`,
-      method: "POST",
-      data: { password, email },
-    });
-    if (response.data.token) {
+    try {
+      const response = await axios({
+        url: `${baseURL}/login/admin`,
+        method: "POST",
+        data: { password, email },
+      });
         dispatch(login(response.data));
-        navigate(`/`);
-    } else (response.data.error)
-    };
+        toast.success(`Welcome back, Admin! :)`, {
+          position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return navigate(`/`);
+      } catch (error) {
+        console.log(error);
+        return toast.error(`Could not login, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      }
+    }
     
   return (
     <div className="container-fluid">
@@ -40,7 +63,6 @@ function AdminLogin() {
                   name="email"
                   id="emails"
                   className="form-control rounded-0"
-                  /* placeholder="user@example.com" */
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -51,7 +73,6 @@ function AdminLogin() {
                   name="password"
                   id="password"
                   className="form-control rounded-0"
-                  /* placeholder="123456" */
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />

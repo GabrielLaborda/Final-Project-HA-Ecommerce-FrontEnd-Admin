@@ -9,6 +9,8 @@ import ProductsMainSection from './components/ProductsMainSection';
 import OrdersMainSection from './components/OrdersMainSection';
 import StaffMainSection from './components/StaffMainSection';
 import AdminLogin from './components/AdminLogin';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
           <Route path="/staff" element={<StaffMainSection />} />
         </Route>
       </Routes>
+      <ToastContainer />
     </>
   );
 }

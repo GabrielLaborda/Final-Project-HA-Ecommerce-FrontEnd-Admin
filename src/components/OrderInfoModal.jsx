@@ -3,10 +3,14 @@ import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
-function OrderInfoModal({orderId, getAllOrders}) {
+function OrderInfoModal({orderId, getAllOrders, onClose}) {
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false)
+        onClose();
+    };
     const handleShow = () => setShow(true);
     const [validated, setValidated] = useState(false);
     const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -40,9 +44,19 @@ function OrderInfoModal({orderId, getAllOrders}) {
             setProducts(response.data.products);
             setStatus(response.data.status);
             setSubtotal(response.data.subtotal);
-            setBoughtDate(response.data.createdAt);
+            return setBoughtDate(response.data.createdAt);
         } catch (error) {
             console.log(error);
+            return toast.error(`Could not update order`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
         }
         }
         getOneOrder();
@@ -60,9 +74,9 @@ function OrderInfoModal({orderId, getAllOrders}) {
             Authorization: `Bearer ${loggedAdmin.token}`,
             },
             });
-            setAllOrderStatus(response.data);
+            return setAllOrderStatus(response.data);
         } catch (error) {
-            console.log(error);
+            return console.log(error);
         }
         }
     getAllOrderStatus();
@@ -83,19 +97,39 @@ function OrderInfoModal({orderId, getAllOrders}) {
         },
         data: { status: status }
       })
-        setValidated(true);
+        toast.success(`order status updated successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        setValidated(false);
         setStatus({});
         handleClose();
-        getAllOrders();
+        onClose();
+        return getAllOrders();
         } catch (error) {
         console.log(error);
+        return toast.error(`Could not update order status, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
         }
         }
 
     return (
         <>
             { user && (<>
-                {/* <h6 role="button" href="" onClick={handleShow} className="text-secondary text-decoration-none">View info</h6> */}
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Order info</Modal.Title>
@@ -131,14 +165,14 @@ function OrderInfoModal({orderId, getAllOrders}) {
                             <p>USD {product.price}</p>
                         </div>
                         </div>
-                        </div> ))}
+                    </div> ))}
                         
                     <Form validated={validated} onSubmit={handleSubmit}>
                         <Form.Group
                         className="mb-3"
                         controlId="orderStatus">
                             <Form.Label className='fw-bold'>Order Status</Form.Label>
-                            <Form.Select aria-label="Status" value={status} onChange={(e) => {setStatus(e.currentTarget.value)
+                            <Form.Select aria-label="Status" id='orderStatus' value={status} onChange={(e) => {setStatus(e.currentTarget.value)
                             }}>
                                 <option>Select new Order Status</option>
                                 {allOrderStatus.map((orderStatus) => (
@@ -146,13 +180,12 @@ function OrderInfoModal({orderId, getAllOrders}) {
                                 </option>
                                 ))}
                             </Form.Select>
-                        </Form.Group>
+                            </Form.Group>
+                            <hr />
+                    <button onClick={handleClose} className='ms-3 px-3 py-1 btn btn-outline-dark rounded-0'>Close</button>
+                    <button type='submit' className='ms-3 px-3 py-1 btn btn-dark rounded-0'>Update order</button>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                    <button onClick={handleClose} className='ms-3 px-3 py-1 btn btn-outline-dark rounded-0'>Close</button>
-                    <button type='submit' onClick={handleSubmit} className='ms-3 px-3 py-1 btn btn-dark rounded-0'>Update order</button>
-                </Modal.Footer>
                 </Modal>
             </>)}
     </>

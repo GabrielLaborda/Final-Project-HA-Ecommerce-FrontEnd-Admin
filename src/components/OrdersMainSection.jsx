@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import OrderInfoModal from './OrderInfoModal';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function OrdersMainSection() {
 
@@ -13,15 +14,29 @@ function OrdersMainSection() {
   const handleAxiosModal = (orderId) => setActiveOrderId(orderId);
 
   const getAllOrders = async () => {
-    const response = await axios({
-      method: 'GET',
-      url: `${baseURL}/orders`,
-      headers:{
-            Authorization: `Bearer ${loggedAdmin.token}`,
-            }
-    });
-    setAllOrders(response.data);
-  };
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${baseURL}/orders`,
+        headers: {
+          Authorization: `Bearer ${loggedAdmin.token}`,
+        }
+      });
+      return setAllOrders(response.data);
+    } catch (error) {
+      console.log(error);
+      return toast.error(`Could not get orders list`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
 
   useEffect(() => {
     getAllOrders();

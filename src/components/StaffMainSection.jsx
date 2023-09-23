@@ -5,6 +5,7 @@ import EditAdminModal from './EditAdminModal';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
 import { MdModeEdit } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 function StaffMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -15,23 +16,37 @@ function StaffMainSection() {
   const handleAxiosModal = (adminId) => setActiveAdminId(adminId);
  
   const getAllAdmin = async () => {
-    const response = await axios({
-      method: 'GET',
-      url: `${baseURL}/admins`,
-      headers: {
-        Authorization: `Bearer ${loggedAdmin.token}`,
-      },
-    });
-    setAllAdmin(response.data);
-  };
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${baseURL}/admins`,
+        headers: {
+          Authorization: `Bearer ${loggedAdmin.token}`,
+        },
+      });
+      return setAllAdmin(response.data);
+    } catch (error) {
+      console.log(error);
+      return toast.error(`Could not get Staff list`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
 
     useEffect(() => {
     getAllAdmin();
   }, []);
 
-  const handleDelete = async (id, firstname) => {
+  const handleDelete = async (id, firstname, lastname) => {
+    if (window.confirm(`Are you sure you want to delete ${firstname}?`))
     try {
-      window.confirm(`Are you sure you want to delete ${firstname}?`);
       await axios({
         method: 'DELETE',
         url: `${baseURL}/admins/${id}`,
@@ -40,12 +55,29 @@ function StaffMainSection() {
         Authorization: `Bearer ${loggedAdmin.token}`,
       },
       });
-      window.alert('admin deleted');
-      getAllAdmin();
+      toast.success(`${firstname + " " + lastname} deleted successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      return getAllAdmin();
     } catch (error) {
       console.error(error);
-      window.alert(error);
-      // Add toast!!
+      return toast.error(`Could not delete admin`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -122,7 +154,7 @@ function StaffMainSection() {
                               </td>
                               <td className="align-middle text-sm">
                                 <TiDeleteOutline
-                                  onClick={() => handleDelete(admin._id, admin.firstname)}
+                                  onClick={() => handleDelete(admin._id, admin.firstname, admin.lastname)}
                                   className="text-danger"
                                   role="button"
                                 />

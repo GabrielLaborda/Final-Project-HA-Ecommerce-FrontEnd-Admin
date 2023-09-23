@@ -4,9 +4,9 @@ import axios from 'axios';
 import AddProductModal from './AddProductModal';
 import { useSelector } from 'react-redux';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { FiEdit2 } from 'react-icons/fi';
 import { MdModeEdit } from 'react-icons/md';
 import EditProductModal from './EditProductModal';
+import { toast } from 'react-toastify';
 
 function ProductsMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -16,23 +16,27 @@ function ProductsMainSection() {
   const handleAxiosModal = (productSlug) => setActiveProductSlug(productSlug);
   
   const getAllProducts = async () => {
-    const response = await axios({
-      method: 'GET',
-      url: `${baseURL}/products`,
-      headers: {
-        Authorization: `Bearer ${loggedAdmin.token}`,
-      },
-    });
-    setAllProducts(response.data);
-  };
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${baseURL}/products`,
+        headers: {
+          Authorization: `Bearer ${loggedAdmin.token}`,
+        },
+      });
+      return setAllProducts(response.data);
+    } catch (error) {
+      return console.log(error);
+    }
+  }
 
   useEffect(() => {
     getAllProducts();
   }, []);
 
   const handleDelete = async (name, slug) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`));
     try {
-      window.confirm(`Are you sure you want to delete ${name}?`);
       await axios({
         method: 'DELETE',
         url: `${baseURL}/products/${slug}`,
@@ -41,12 +45,29 @@ function ProductsMainSection() {
         Authorization: `Bearer ${loggedAdmin.token}`,
       },
       });
-      window.alert('product deleted');
-      getAllProducts();
+      toast.success(`${name} deleted successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      return getAllProducts();
     } catch (error) {
       console.error(error);
-      window.alert(error);
-      // Add toast!!
+      return toast.error(`Could not delete product, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

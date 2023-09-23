@@ -4,6 +4,7 @@ import { MdModeEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { TiDeleteOutline } from "react-icons/ti";
 import EditCategoryModal from "./EditCategoryModal";
+import { toast } from 'react-toastify';
 
 function CategoriesMainSection() {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -18,12 +19,26 @@ function CategoriesMainSection() {
     setActiveCategorySlug(categorySlug);
 
   const getAllCategories = async () => {
-    const response = await axios({
-      method: "GET",
-      url: `${baseURL}/categories`,
-    });
-    setAllCategories(response.data);
-  };
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `${baseURL}/categories`,
+      });
+      return setAllCategories(response.data);
+    } catch (error) {
+      console.log(error);
+      return toast.error(`Could not get categories list, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
 
   useEffect(() => {
     getAllCategories();
@@ -35,7 +50,6 @@ function CategoriesMainSection() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(pictures);
     try {
       const formData = new FormData(event.target);
       await axios({
@@ -47,18 +61,37 @@ function CategoriesMainSection() {
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
       });
-      getAllCategories();
-      setName("");
-      setDescription("");
-      setPictures(null);
+      toast.success(`${name} added successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        setName("");
+        setDescription("");
+        setPictures(null);
+        return getAllCategories();
     } catch (error) {
       console.log(error);
-      window.alert("Error: " + error);
-      // add Toast!!
+      return toast.error(`Could not add new category, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
   const handleDelete = async (name, slug) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`))
     try {
       await axios({
         method: "DELETE",
@@ -68,12 +101,29 @@ function CategoriesMainSection() {
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
       });
-      window.alert("product deleted");
-      getAllCategories();
+      toast.success(`${name} deleted successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      return getAllCategories();
     } catch (error) {
       console.error(error);
-      window.alert(error);
-      // Add toast!!
+      return toast.error(`Could not delete category, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -88,7 +138,7 @@ function CategoriesMainSection() {
                   <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-light">
                     <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
                       <h6 className="text-white fs-5 ps-5">
-                        CATEGORY
+                        CATEGORIES
                       </h6>
                     </div>
                   </div>
@@ -98,7 +148,7 @@ function CategoriesMainSection() {
                         <thead>
                           <tr>
                             <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              CATEGORY
+                              Category
                             </th>
                             <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                               prod Quantity
@@ -164,7 +214,7 @@ function CategoriesMainSection() {
                         className="d-flex flex-column"
                         onSubmit={handleSubmit}
                       >
-                        <h6 className="fw-bold mt-2">ADD NEW CATEGORY</h6>
+                        <h6 className="fw-bold text-secondary mt-2">ADD NEW CATEGORY</h6>
                         <div className="row">
                           <div className="col-6">
                           <label htmlFor="name"></label>
@@ -173,7 +223,7 @@ function CategoriesMainSection() {
                             name="name"
                             id="name"
                             value={name}
-                            placeholder="New category"
+                            placeholder="Category name"
                             onChange={(event) => setName(event.target.value)}
                             className="form-control rounded-0"
                           />

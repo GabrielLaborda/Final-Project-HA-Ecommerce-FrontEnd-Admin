@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function EditAdminModal({adminId, getAllAdmin, onClose}) {
   const [show, setShow] = useState(false);
@@ -35,9 +36,19 @@ function EditAdminModal({adminId, getAllAdmin, onClose}) {
       setAdmin(response.data);
       setFirstname(response.data.firstname);
       setLastname(response.data.lastname);
-      setEmail(response.data.email);
+      return setEmail(response.data.email);
     } catch (error) {
       console.log(error);
+      return toast.error(`Could not get this info, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 
@@ -57,6 +68,16 @@ function EditAdminModal({adminId, getAllAdmin, onClose}) {
             Authorization: `Bearer ${loggedAdmin.token}`,
             }
       })
+      toast.success(`${firstname + " " + lastname} updated successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setValidated(false);
       handleClose();
       setAdmin(null);
@@ -64,9 +85,19 @@ function EditAdminModal({adminId, getAllAdmin, onClose}) {
       setLastname("");
       setEmail("");
       setPassword("");
-      getAllAdmin()
+      return getAllAdmin();
     } catch (error) {
       console.log(error);
+      return toast.error(`Could not update admin`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 

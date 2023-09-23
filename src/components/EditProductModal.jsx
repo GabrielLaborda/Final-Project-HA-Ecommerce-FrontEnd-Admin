@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function EditProductModal({ getAllProducts, productSlug, onClose }) {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -38,9 +39,19 @@ function EditProductModal({ getAllProducts, productSlug, onClose }) {
         setDescription(response.data.description);
         setPrice(response.data.price);
         setStock(response.data.stock);
-        setFeatured(response.data.featured);
+        return setFeatured(response.data.featured);
       } catch (error) {
         console.log(error);
+        return toast.error(`Could not get this info, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       }
     }
 
@@ -60,6 +71,16 @@ function EditProductModal({ getAllProducts, productSlug, onClose }) {
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
       });
+      toast.success(`${name} updated successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setValidated(true);
       handleClose();
       setName('');
@@ -68,11 +89,19 @@ function EditProductModal({ getAllProducts, productSlug, onClose }) {
       setStock(0);
       setFeatured(false);
       onClose();
-      getAllProducts();
+      return getAllProducts();
     } catch (error) {
       console.log(error);
-      window.alert('Error: ' + error);
-      // add Toast!!
+      return toast.error(`Could not update this product, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 function UsersMainSection() {
 
@@ -8,12 +9,16 @@ function UsersMainSection() {
   const [allUsers, setAllUsers] = useState(null);
 
   const getAllUsers = async () => {
-    const response = await axios({
-      method: 'GET',
-      url: `${baseURL}/users`,
-    });
-    setAllUsers(response.data);
-  };
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${baseURL}/users`,
+      });
+      setAllUsers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     getAllUsers();

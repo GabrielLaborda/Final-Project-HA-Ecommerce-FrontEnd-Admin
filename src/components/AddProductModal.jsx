@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function AddProductModal({ getAllProducts }) {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -13,7 +14,7 @@ function AddProductModal({ getAllProducts }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   
-  // get category options (form options)
+  // GET CATEGORIES (form options)
 
   const [allCategories, setAllCategories] = useState([]);
 
@@ -29,6 +30,16 @@ function AddProductModal({ getAllProducts }) {
       setAllCategories(response.data);
     } catch (error) {
       console.log(error);
+      toast.error(`Could not get this info, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -36,7 +47,7 @@ function AddProductModal({ getAllProducts }) {
     getAllCategories();
   }, []);
 
-  // post new product data
+  // ADD NEW PRODUCT
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -67,6 +78,16 @@ function AddProductModal({ getAllProducts }) {
           Authorization: `Bearer ${loggedAdmin.token}`,
         },
       });
+      toast.success(`${name} added successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setValidated(false);
       handleClose();
       setName('');
@@ -75,11 +96,19 @@ function AddProductModal({ getAllProducts }) {
       setPrice(0);
       setStock(0);
       setFeatured(false);
-      getAllProducts();
+      return getAllProducts();
     } catch (error) {
       console.log(error);
-      window.alert('Error: ' + error);
-      // add Toast!!
+      return toast.error(`Could not add new product, try again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

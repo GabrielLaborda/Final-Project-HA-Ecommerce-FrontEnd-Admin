@@ -21,7 +21,7 @@ function DashboardMenu() {
   };
   
   const handleLogout = async (e) => {
-    dispatch(logout());
+    return dispatch(logout());
   }
 
   return (
