@@ -61,12 +61,11 @@ function AdminLogin() {
                 <input
                   type="text"
                   name="email"
-                  id="emails"
+                  id="email"
                   className="form-control rounded-0"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <label htmlFor="firstName" className="form-label"></label>
                 <label htmlFor="password" className="form-label"></label>
                 <input
                   type="password"
