@@ -243,7 +243,7 @@ function CategoriesMainSection() {
                           />
                           </div>
                           <div className="col-12">
-                          <label htmlFor="newCategoryPictures"></label>
+                          <label htmlFor="pictures"></label>
                           <input
                             id="pictures"
                             name="pictures"
