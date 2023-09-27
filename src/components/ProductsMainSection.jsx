@@ -35,7 +35,7 @@ function ProductsMainSection() {
   }, []);
 
   const handleDelete = async (name, slug) => {
-    if (window.confirm(`Are you sure you want to delete ${name}?`));
+    if (window.confirm(`Are you sure you want to delete ${name}?`))
     try {
       await axios({
         method: 'DELETE',
