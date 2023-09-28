@@ -86,7 +86,7 @@ function OrdersMainSection() {
                             </td>
                             <td className="align-middle text-start text-sm">
                               <span href="" className="text-secondary text-decoration-none">
-                                USD {Math.round(order.subtotal)}
+                                USD {order.subtotal.toFixed(2)}
                               </span>
                             </td>
                             <td className="align-middle text-start text-sm">

@@ -53,7 +53,7 @@ function HomeMainCharts() {
           <div className='my-4 p-3 h-100'>
             <div className="card z-index-2">
               <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                <div className="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+                <div className="bg-gradient-info shadow-dark border-radius-lg py-3 pe-1">
                   <div className="chartParent">
                     <canvas id="chartPattern3" className="chart-canvas" height="170"></canvas>
                   </div>

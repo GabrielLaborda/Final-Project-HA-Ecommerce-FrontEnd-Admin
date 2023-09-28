@@ -117,7 +117,7 @@ function AddProductModal({ getAllProducts }) {
       {allCategories && (
         <>
           <button onClick={handleShow} className="ms-3 px-5 py-2 btn btn-outline-dark rounded-0">
-            Add new product
+            Add new
           </button>
 
           <Modal show={show} onHide={handleClose}>
@@ -127,7 +127,7 @@ function AddProductModal({ getAllProducts }) {
             <Modal.Body>
               <Form validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="name">
-                  <Form.Label className="fw-bold">New product name</Form.Label>
+                  <Form.Label className="fw-bold">Name</Form.Label>
                   <Form.Control
                     name="name"
                     onChange={(e) => setName(e.target.value)}

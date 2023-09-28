@@ -85,11 +85,16 @@ function ProductsMainSection() {
                     </div>
                   </div>
                   <div className="card-body px-4 pb-2 bg-light">
+                  <div className="d-flex justify-content-end mb-4">
+                      <AddProductModal
+                         getAllProducts={getAllProducts}
+                      />
+                    </div>
                     <div className="table p-1">
                       <table className="table table-light align-items-center mb-2">
                         <thead>
                           <tr>
-                            <th className="text-starttext-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                               Product
                             </th>
                             <th className="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">

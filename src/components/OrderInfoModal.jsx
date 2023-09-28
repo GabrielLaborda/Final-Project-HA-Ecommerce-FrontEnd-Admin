@@ -140,17 +140,11 @@ function OrderInfoModal({orderId, getAllOrders, onClose}) {
                     <h6 className='fw-bold'>Purchase date </h6>
                     <p>{new Date(boughtDate).toLocaleDateString()}</p>
                     <h6 className='fw-bold'>Client</h6>
-                    <div className='row'>
-                        <div className="col-6">
-                            <p>{user.firstname} {user.lastname}</p>
-                        </div>
-                        <div className="col-3">
-                            <p>{user.address}</p>
-                        </div>
-                        <div className="col-3">
-                            <p>USD {Math.round(subtotal) }</p>
-                        </div>
-                    </div>
+                    <p>{user.firstname} {user.lastname}</p>
+                    <h6 className='fw-bold'>Delivery Address</h6>
+                    <p>{user.address}</p>
+                    <h6 className='fw-bold'>Order Amount</h6>
+                    <p>USD {orderId.subtotal.toFixed(2)}</p>
                     <h6 className='fw-bold'>Bought products</h6>
                         {products && products.map((product) => (
                     <div key={product._id} className='row'>
