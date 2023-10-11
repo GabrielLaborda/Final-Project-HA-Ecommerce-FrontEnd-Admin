@@ -12,9 +12,9 @@ function StaffMainSection() {
   const [allAdmin, setAllAdmin] = useState(null);
   const loggedAdmin = useSelector((state) => state.admin);
 
-  const [activeAdminId, setActiveAdminId ]= useState(null);
+  const [activeAdminId, setActiveAdminId] = useState(null);
   const handleAxiosModal = (adminId) => setActiveAdminId(adminId);
- 
+
   const getAllAdmin = async () => {
     try {
       const response = await axios({
@@ -28,57 +28,70 @@ function StaffMainSection() {
     } catch (error) {
       console.log(error);
       return toast.error(`Could not get Staff list`, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: 'light',
       });
     }
-  }
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     getAllAdmin();
   }, []);
 
   const handleDelete = async (id, firstname, lastname) => {
-    if (window.confirm(`Are you sure you want to delete ${firstname}?`))
-    try {
-      await axios({
-        method: 'DELETE',
-        url: `${baseURL}/admins/${id}`,
-        data: { id: id },
-        headers: {
-        Authorization: `Bearer ${loggedAdmin.token}`,
-      },
-      });
-      toast.success(`${firstname + " " + lastname} deleted successfully!`, {
-        position: "top-right",
+    const cantDelete = ['Admin', 'Example'];
+    if (cantDelete.includes(firstname) || cantDelete.includes(lastname)) {
+      return toast.error(`${firstname} cannot be deleted.`, {
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
-        });
-      return getAllAdmin();
-    } catch (error) {
-      console.error(error);
-      return toast.error(`Could not delete admin`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+        theme: 'light',
       });
     }
+    if (window.confirm(`Are you sure you want to delete ${firstname}?`))
+      try {
+        await axios({
+          method: 'DELETE',
+          url: `${baseURL}/admins/${id}`,
+          data: { id: id },
+          headers: {
+            Authorization: `Bearer ${loggedAdmin.token}`,
+          },
+        });
+        toast.success(`${firstname + ' ' + lastname} deleted successfully!`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+        return getAllAdmin();
+      } catch (error) {
+        console.error(error);
+        return toast.error(`Could not delete admin`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      }
   };
 
   return (
@@ -144,17 +157,22 @@ function StaffMainSection() {
                               </td>
                               <td className="align-middle text-sm">
                                 {admin._id === activeAdminId && (
-                                <EditAdminModal 
-                                adminId={admin._id} 
-                                key={admin._id} 
-                                onClose={()=> setActiveAdminId(null)}
-                                getAllAdmin={getAllAdmin}/>
-                              )}
-                              <p onClick={()=>handleAxiosModal(admin._id)} className="p-0 m-0"><MdModeEdit className="text-warning" role="button" /></p>
+                                  <EditAdminModal
+                                    adminId={admin._id}
+                                    key={admin._id}
+                                    onClose={() => setActiveAdminId(null)}
+                                    getAllAdmin={getAllAdmin}
+                                  />
+                                )}
+                                <p onClick={() => handleAxiosModal(admin._id)} className="p-0 m-0">
+                                  <MdModeEdit className="text-warning" role="button" />
+                                </p>
                               </td>
                               <td className="align-middle text-sm">
                                 <TiDeleteOutline
-                                  onClick={() => handleDelete(admin._id, admin.firstname, admin.lastname)}
+                                  onClick={() =>
+                                    handleDelete(admin._id, admin.firstname, admin.lastname)
+                                  }
                                   className="text-danger"
                                   role="button"
                                 />
@@ -165,7 +183,7 @@ function StaffMainSection() {
                       </table>
                     </div>
                     <div className="d-flex justify-content-center mb-4">
-                      <AddAdminModal  getAllAdmin={getAllAdmin}/>
+                      <AddAdminModal getAllAdmin={getAllAdmin} />
                     </div>
                   </div>
                 </div>
