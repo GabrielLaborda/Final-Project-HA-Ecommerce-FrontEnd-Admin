@@ -91,6 +91,19 @@ function CategoriesMainSection() {
   };
 
   const handleDelete = async (name, slug) => {
+    const cantDelete = ["Completes", "Decks", "Trucks", "Wheels"];
+    if (cantDelete.includes(name)) {
+      return toast.error(`${name} cannot be deleted.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+      });
+  }
     if (window.confirm(`Are you sure you want to delete ${name}?`))
     try {
       await axios({
